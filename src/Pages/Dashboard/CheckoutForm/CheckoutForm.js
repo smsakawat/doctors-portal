@@ -11,7 +11,7 @@ const CheckoutForm = ({ appointment }) => {
   const [clientSecret, setClientSecret] = useState("");
   const { price, patientName, email, _id } = appointment;
   const [success, setSuccess] = useState("");
-  const [showLoader, setShowLoader] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     axios
@@ -32,7 +32,7 @@ const CheckoutForm = ({ appointment }) => {
       return;
     }
 
-    setShowLoader(true);
+    setProcessing(true);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card,
@@ -59,11 +59,11 @@ const CheckoutForm = ({ appointment }) => {
     if (intentError) {
       setSuccess("");
       setError("Payment Unsuccesfull");
-      setShowLoader(false);
+      setProcessing(false);
     } else {
       setError("");
       setSuccess("Congrats,Payment Successfull");
-      setShowLoader(false);
+      setProcessing(false);
       console.log(paymentIntent);
       // save payment info in db after succesfully payment done
       const payment = {
@@ -98,7 +98,7 @@ const CheckoutForm = ({ appointment }) => {
               },
             }}
           />
-          {showLoader ? (
+          {processing ? (
             <Button disabled variant="contained" color="success">
               <CircularProgress
                 color="inherit"
