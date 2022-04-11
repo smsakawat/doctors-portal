@@ -1,25 +1,56 @@
 import { PhotoCamera } from "@mui/icons-material";
 import { Button, IconButton, Input, TextField } from "@mui/material";
-import React, { useState } from "react";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import * as React from "react";
+import { useState } from "react";
 import useStyles from "../../../styles";
 
-const AddDcotor = () => {
+// alert for snackbar
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const AddDoctor = () => {
   const [doctor, setDoctor] = useState({});
   const classes = useStyles();
+  // snackbar states
+  const [open, setOpen] = React.useState(false);
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  // snackbar ends
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", doctor.name);
     formData.append("email", doctor.email);
     formData.append("image", doctor.image);
+    console.log(formData);
     fetch("http://localhost:5000/doctors", {
       method: "POST",
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          handleClick();
+        }
+      });
+    e.target.reset();
   };
+
   return (
     <>
       <div>
@@ -74,6 +105,7 @@ const AddDcotor = () => {
               </IconButton>
             </label>
             <br />
+
             <Button
               sx={{ my: 3 }}
               fullWidth
@@ -85,9 +117,18 @@ const AddDcotor = () => {
             </Button>
           </form>
         </div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Doctor Added Successfully
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );
 };
 
-export default AddDcotor;
+export default AddDoctor;

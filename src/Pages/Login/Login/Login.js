@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import login from "../../../images/login.png";
 import useStyles from "../../../styles";
@@ -26,7 +26,7 @@ const Login = () => {
   const [successAlert, setSuccessAlert] = useState(false);
   const [authError, setAuthError] = useState(false);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const destination = location.state?.from || "/";
 
@@ -46,7 +46,7 @@ const Login = () => {
     console.log(loginData);
     loginWithEmail(loginData.email, loginData.password)
       .then(() => {
-        history.replace(destination);
+        navigate(destination);
         setSuccessAlert(true);
         //  close alert after three second
         setTimeout(() => {
@@ -73,7 +73,7 @@ const Login = () => {
     signinWithGoogle()
       .then((result) => {
         const user = result.user;
-        history.replace(destination);
+        navigate(destination);
         saveGoogleSigninUser(user.email, user.displayName);
         alert("Login Successfull!");
       })

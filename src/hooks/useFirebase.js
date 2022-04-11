@@ -88,7 +88,7 @@ const useFirebase = () => {
     });
     // this clean up function is for better performance a little bit
     return () => unsubscribe;
-  }, []);
+  }, [auth]);
 
   // to check the user is admin or not
   // akane user.email k dependency dite hobe karon first time render howar somoy user er inintal value empty object takhe jar karone
@@ -103,7 +103,6 @@ const useFirebase = () => {
     setUser,
     registerUser,
     updateName,
-    setUser,
     admin,
     isLoading,
     setIsLoading,
@@ -115,3 +114,4 @@ const useFirebase = () => {
   };
 };
 export default useFirebase;
+// now we'll add facebook login and twitter login here.

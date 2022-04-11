@@ -14,18 +14,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import * as React from "react";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
-import AdminRoute from "../../../AdminRoute/AdminRoute";
+import { Link, Outlet } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import AddDoctor from "../AddDoctor/AddDcotor";
-import DashboardHome from "../DashboardHome/DashboardHome";
-import MakeAdmin from "../MakeAdmin/MakeAdmin";
-import Payment from "../Payment/Payment";
 
 const drawerWidth = 200;
 
 function Dashboard(props) {
-  const { path, url } = useRouteMatch();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { user, admin } = useAuth();
@@ -58,9 +52,8 @@ function Dashboard(props) {
         <List>
           <ListItem>
             <ListItemText>
-              <Button>
-                {" "}
-                <Link to={`${url}`}>Appointments</Link>
+              <Button style={{ textDecoration: "none" }}>
+                <Link to="/dashboard">Appointments</Link>
               </Button>
             </ListItemText>
           </ListItem>
@@ -70,7 +63,12 @@ function Dashboard(props) {
                 <ListItemText>
                   <Button>
                     {" "}
-                    <Link to={`${url}/makeAdmin`}>Make Admin</Link>
+                    <Link
+                      to="/dashboard/makeAdmin"
+                      style={{ textDecoration: "none" }}
+                    >
+                      Make Admin
+                    </Link>
                   </Button>
                 </ListItemText>
               </ListItem>
@@ -78,7 +76,12 @@ function Dashboard(props) {
                 <ListItemText>
                   <Button>
                     {" "}
-                    <Link to={`${url}/addDoctor`}>Add Doctor</Link>
+                    <Link
+                      to="/dashboard/addDoctor"
+                      style={{ textDecoration: "none" }}
+                    >
+                      Add Doctor
+                    </Link>
                   </Button>
                 </ListItemText>
               </ListItem>
@@ -87,7 +90,12 @@ function Dashboard(props) {
         </List>
       </div>
       <Link to="/">
-        <Button variant="contained" color="error" sx={{ mb: 1 }}>
+        <Button
+          variant="contained"
+          color="error"
+          sx={{ mb: 1 }}
+          style={{ textDecoration: "none" }}
+        >
           Back to home
           <ArrowForwardIosIcon sx={{ ml: 1, fontSize: "0.95rem" }} />
         </Button>
@@ -170,20 +178,7 @@ function Dashboard(props) {
       >
         <Toolbar />
         <Box>
-          <Switch>
-            <Route exact path={path}>
-              <DashboardHome />
-            </Route>
-            <Route path={`${path}/payment/:appointmentId`}>
-              <Payment />
-            </Route>
-            <AdminRoute exact path={`${path}/makeAdmin`}>
-              <MakeAdmin />
-            </AdminRoute>
-            <Route exact path={`${path}/addDoctor`}>
-              <AddDoctor />
-            </Route>
-          </Switch>
+          <Outlet />
         </Box>
       </Box>
     </Box>

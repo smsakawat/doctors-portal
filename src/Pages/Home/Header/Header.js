@@ -135,7 +135,9 @@ const Navigation = ({ window, handleClickOpen }) => {
 
   const drawer = (
     <div style={{ textAlign: "center" }}>
-      <Typography variant="h6">DoctorPortal</Typography>
+      <Typography sx={{ py: 3 }} variant="h6">
+        DoctorPortal
+      </Typography>
       <Divider />
       <Link to="/" className={link}>
         <ListItem button className={navItemM}>
@@ -167,7 +169,7 @@ const Navigation = ({ window, handleClickOpen }) => {
     window !== undefined ? () => window().document.body : undefined;
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box className={root}>
         <AppBar className={appBar}>
           <Toolbar>
             <div>
@@ -202,7 +204,7 @@ const Navigation = ({ window, handleClickOpen }) => {
               </nav>
             </div>
 
-            <Container>
+            <Container className={navbar}>
               <div>
                 <Link className={linkItem} to="/">
                   <Button>

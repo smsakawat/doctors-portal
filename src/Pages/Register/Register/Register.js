@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import login from "../../../images/login.png";
 import useStyles from "../../../styles";
@@ -33,9 +33,9 @@ const Register = () => {
   const [authError, setAuthError] = useState(false);
   const [passError, setPassError] = useState(false);
   // getting query value that i provider from login to redirect the use in wished page
-  const { query } = useLocation();
+  // const { query } = useLocation();
   // console.log(query);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     /* const field = e.target.name;
@@ -70,16 +70,16 @@ const Register = () => {
         saveUser(registerData.email, registerData.name);
         updateName(registerData.name);
         setSuccessAlert(true);
-        history.replace(query.destination.pathname || "/");
+        navigate("/");
         //  close alert after three second
         setTimeout(() => {
           setSuccessAlert(false);
         }, 3000);
       })
-      .catch((err) => setAuthError(true))
+      .catch((err) => {})
       .finally(() => setIsLoading(false));
 
-    console.log(registerData);
+    // console.log(registerData);
     e.target.reset();
   };
   // show Error while sign up
@@ -100,7 +100,7 @@ const Register = () => {
     signinWithGoogle()
       .then((result) => {
         const user = result.user;
-        history.replace(query.destination.pathname || "/");
+        navigate("/");
         saveGoogleSigninUser(user.email, user.displayName);
         alert("Login Successfull!");
       })

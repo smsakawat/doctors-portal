@@ -12,7 +12,7 @@ import {
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useStyles from "../../../styles";
 
@@ -20,8 +20,7 @@ const BookedAppointments = ({ date }) => {
   const classes = useStyles();
   const [appointments, setAppointments] = useState([]);
   const { user } = useAuth();
-  const history = useHistory();
-
+  const navigate = useNavigate();
   //   load appointments by date
   useEffect(() => {
     axios
@@ -75,9 +74,7 @@ const BookedAppointments = ({ date }) => {
                       ) : (
                         <Button
                           onClick={() =>
-                            history.push(
-                              `/dashboard/payment/${appointments._id}`
-                            )
+                            navigate(`/dashboard/payment/${appointments._id}`)
                           }
                           variant="contained"
                           size="small"
